@@ -261,6 +261,7 @@ class RecaptchaHelper extends AppHelper {
 	}
 
 	public function displayNocaptcha() {
+		echo $this->Html->script('https://www.google.com/recaptcha/api.js', array('inline' => false));
 		return '<div class="g-recaptcha" data-sitekey="'. Configure::read('Recaptcha.publicKey') .'"></div>';
 	}
 }
