@@ -260,4 +260,7 @@ class RecaptchaHelper extends AppHelper {
 			"' onclick=\"window.open('" . htmlentities($url) . "', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;\" title=\"Reveal this e-mail address\">...</a>@" . htmlentities($emailparts[1]);
 	}
 
+	public function displayNocaptcha() {
+		return '<div class="g-recaptcha" data-sitekey="'. Configure::read('Recaptcha.publicKey') .'"></div>';
+	}
 }

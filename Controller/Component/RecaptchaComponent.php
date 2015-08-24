@@ -33,6 +33,7 @@ class RecaptchaComponent extends Component {
  * @var string
  */
 	public $apiUrl = 'http://www.google.com/recaptcha/api/verify';
+	public $newApiUrl = 'https://www.google.com/recaptcha/api/siteverify';
 
 /**
  * Private API Key
@@ -182,4 +183,22 @@ class RecaptchaComponent extends Component {
 		));
 	}
 
+	protected function _getNewApiResponse() {
+		$Socket = new HttpSocket();
+		return $Socket->post($this->newApiUrl, array(
+			'secret' => $this->privateKey,
+			'remoteip' => env('REMOTE_ADDR'),
+			'response' => $this->Controller->request->data['g-recaptcha-response']
+		));
+	}
+
+	public function verifyNocaptcha() {
+		$response = $this->_getNewApiResponse();
+		$response = json_decode($response->body());
+		$this->log($response, 'debug');
+		if (!$response->success) {
+			$this->error = $response->{'error-codes'};
+		}
+		return $response->success;
+	}
 }
